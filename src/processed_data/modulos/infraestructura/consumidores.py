@@ -5,7 +5,8 @@ import aiopulsar
 import asyncio
 from pulsar.schema import *
 from processed_data.seedwork.infraestructura import utils
-
+#from processed_data.seedwork.infraestructura.proyecciones import ejecutar_proyeccion
+from processed_data.modulos.aplicacion.comandos.iniciar_procesamiento_datos import ComandoIniciarProcesamientoDatos, ejecutar_comando_iniciar_procesamiento_datos
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
     try:
@@ -20,7 +21,23 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     mensaje = await consumidor.receive()
                     print(mensaje)
                     datos = mensaje.value()
-                    print(f'Evento recibido: {datos}')
+                    print(f'Evento recibido****: {datos}')
+                    print(f'Evento recibido************ type: {datos.type}')
+                    print(f'Evento recibido************ datacontenttype: {datos.datacontenttype}')
+                    print(f'Evento recibido************ data: {datos.data}')
+                    #print(f'Evento recibido************ tipo_processed_data: {datos.data.tipo_processed_data}')
+
+
+
+                    ejecutar_comando_iniciar_procesamiento_datos(
+                        ComandoIniciarProcesamientoDatos(
+                            datos.data.partner_id,
+                            datos.data.user_id,
+                            datos.data.url_raw_data,
+                            #datos.data.tipo_processed_data.name
+                        )
+                    )
+            
                     await consumidor.acknowledge(mensaje)    
 
     except:

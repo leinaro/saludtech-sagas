@@ -2,11 +2,11 @@ from concurrent import futures
 import logging
 
 import grpc
-from aeroalpes.pb2py import vuelos_pb2
-from aeroalpes.pb2py import vuelos_pb2_grpc
+from saludtech.pb2py import vuelos_pb2
+from saludtech.pb2py import vuelos_pb2_grpc
 
 
-from aeroalpes.servicios.vuelos import Vuelos
+from saludtech.servicios.vuelos import Vuelos
 
 def agregar_servicios(servidor):
     vuelos_pb2_grpc.add_VuelosServicer_to_server(Vuelos(), servidor)

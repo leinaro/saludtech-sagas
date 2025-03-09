@@ -12,7 +12,10 @@ router = APIRouter()
 @router.post("/procesar", status_code=status.HTTP_202_ACCEPTED, response_model=RespuestaAsincrona)
 async def procesar_datos(procesar_datos: ProcesarDatos, background_tasks: BackgroundTasks) -> dict[str, str]:
     comando = ComandoIniciarProcesamientoDatos(
-        nombres=procesar_datos.url_raw_data,
-        )
+        partner_id=procesar_datos.partner_id,
+        user_id = procesar_datos.user_id,
+        url_raw_data = procesar_datos.url_raw_data,
+        #tipo_processed_data = procesar_datos.tipo_processed_data,
+    )
     background_tasks.add_task(ejecutar_commando, comando)
     return RespuestaAsincrona(mensaje="Procesando datos")

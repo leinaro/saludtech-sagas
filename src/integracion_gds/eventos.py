@@ -21,7 +21,7 @@ class EventoConfirmacionGDS(Record):
     specversion = String(default="v1")
     type = String(default="EventoPago")
     datacontenttype = String()
-    service_name = String(default="pagos.aeroalpes")
+    service_name = String(default="pagos.saludtech")
     confirmacion_revertida = ConfirmacionRevertida
     reserva_confirmada = ReservaConfirmada
 

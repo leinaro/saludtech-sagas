@@ -55,7 +55,7 @@ async def prueba_usuario_registrado() -> dict[str, str]:
         id = "1232321321", 
         nombres = "Juan",
         apellidos = "Urrego",
-        email = "js.urrego110@aeroalpes.net",
+        email = "js.urrego110@saludtech.net",
         tipo_cliente = TipoCliente.natural,
         fecha_creacion = utils.time_millis())
 
@@ -87,7 +87,7 @@ async def prueba_registrar_usuario() -> dict[str, str]:
     payload = RegistrarUsuario(
         nombres = "Juan",
         apellidos = "Urrego",
-        email = "js.urrego110@aeroalpes.net",
+        email = "js.urrego110@saludtech.net",
         tipo_cliente = TipoCliente.natural,
         fecha_creacion = utils.time_millis()
     )

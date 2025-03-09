@@ -1,3 +1,4 @@
+from processed_data.modulos.infraestructura.v1 import TipoDatos
 from processed_data.seedwork.aplicacion.comandos import Comando, ComandoHandler
 from processed_data.seedwork.aplicacion.comandos import ejecutar_commando as comando
 from processed_data.modulos.dominio.entidades import DatoProcesado
@@ -11,7 +12,7 @@ class ComandoIniciarProcesamientoDatos(Comando):
     partner_id: str
     user_id: str
     url_raw_data: str
-    #tipo_processed_data: str
+    #tipo_processed_data: TipoDatos
 
 class IniciarProcesamientoDatosHandler(ComandoHandler):
 
@@ -20,13 +21,17 @@ class IniciarProcesamientoDatosHandler(ComandoHandler):
             partner_id=comando.partner_id,
             user_id = comando.user_id,
             url_raw_data = comando.url_raw_data,
-            tipo_processed_data = comando.tipo_processed_data,
+            #tipo_processed_data = comando.tipo_processed_data,
             fecha_creacion = datetime.datetime.now(),
             fecha_actualizacion = datetime.datetime.now()
         )
 
         processed_data = DatoProcesado(**params)
 
+        print("---------------------")
+        print(str(processed_data))
+        print("---------------------")
+        
         return processed_data
         
 
