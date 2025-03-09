@@ -1,7 +1,5 @@
 from fastapi import APIRouter
-from .auth.router import router as auth_router
-from .perfil.router import router as perfil_router
-
+from .query import router as query_router
 
 router = APIRouter()
-router.include_router(perfil_router, prefix="/query", tags=["query"])
+router.include_router(query_router, prefix="/query", tags=["query"])
