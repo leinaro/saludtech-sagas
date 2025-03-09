@@ -43,7 +43,7 @@ async def prueba_procesamiento_datos_iniciado() -> dict[str, str]:
         partner_id = "1234567890",
         user_id = "0987654321",
         url_raw_data = "qwertyuio",
-        tipo_processed_data = TipoDatos.imagen_medica,
+        #tipo_processed_data = TipoDatos.imagen_medica,
         fecha_inicio = utils.time_millis())
 
     evento = EventoDatoProcesado(
@@ -89,7 +89,7 @@ async def prueba_procesar_datos() -> dict[str, str]:
         partner_id = "1234567890",
         user_id = "0987654321",
         url_raw_data = "qwertyuio",
-        tipo_processed_data = TipoDatos.imagen_medica,
+        #tipo_processed_data = TipoDatos.imagen_medica,
         fecha_creacion = utils.time_millis()
     )
 

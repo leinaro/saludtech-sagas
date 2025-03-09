@@ -11,10 +11,10 @@ Este repositorio sigue en general la misma estructura del repositorio de origen.
 - El directorio **src/cliente/** ahora incluye todas las clases y archivos que constituyen el contexto del manejo de usuarios.
 - El directorio **src/integracion_gds/** ahora incluye todas las clases y archivos que constituyen el contexto con la integración con GDS.
 - El directorio **src/pagos/** ahora incluye todas las clases y archivos que constituyen el contexto de pagos.
-- El proyecto `aeroalpes` ahora cuenta con un nuevo módulo para el manejo de sagas **src/aeroalpes/modulos/sagas/**. Este módulo sigue los mismos estándares de los demás módulos.
+- El proyecto `saludtech` ahora cuenta con un nuevo módulo para el manejo de sagas **src/saludtech/modulos/sagas/**. Este módulo sigue los mismos estándares de los demás módulos.
     - Módulo `aplicacion` que cuenta con código de los `comandos` para múltiples contextos fuera del de reservas e itinerarios.
     - Módulo `coordinadores` que cuenta con la saga de reservas usando orquestación.
-- Los archivos **src/aeroalpes/seedwork/aplicacion/sagas.py** provee las interfaces y definiciones genéricas para la coordinación de sagas.
+- Los archivos **src/saludtech/seedwork/aplicacion/sagas.py** provee las interfaces y definiciones genéricas para la coordinación de sagas.
 
 ## AeroAlpes
 ### Ejecutar Base de datos
@@ -31,13 +31,13 @@ Este comando descarga las imágenes e instala las dependencias de la base datos.
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-flask --app src/aeroalpes/api run
+flask --app src/saludtech/api run
 ```
 
 Siempre puede ejecutarlo en modo DEBUG:
 
 ```bash
-flask --app src/aeroalpes/api --debug run
+flask --app src/saludtech/api --debug run
 ```
 
 ### Ejecutar pruebas
@@ -56,7 +56,7 @@ coverage report
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker build . -f aeroalpes.Dockerfile -t aeroalpes/flask
+docker build . -f saludtech.Dockerfile -t saludtech/flask
 ```
 
 ### Ejecutar contenedora (sin compose)
@@ -64,7 +64,7 @@ docker build . -f aeroalpes.Dockerfile -t aeroalpes/flask
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker run -p 5000:5000 aeroalpes/flask
+docker run -p 5000:5000 saludtech/flask
 ```
 
 ## Sidecar/Adaptador
@@ -107,7 +107,7 @@ python -m grpc_tools.protoc -Iprotos --python_out=./pb2py --pyi_out=./pb2py --gr
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker build . -f adaptador.Dockerfile -t aeroalpes/adaptador
+docker build . -f adaptador.Dockerfile -t saludtech/adaptador
 ```
 
 ### Ejecutar contenedora (sin compose)
@@ -115,7 +115,7 @@ docker build . -f adaptador.Dockerfile -t aeroalpes/adaptador
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker run -p 50051:50051 aeroalpes/adaptador
+docker run -p 50051:50051 saludtech/adaptador
 ```
 
 ## Microservicio Notificaciones
@@ -132,7 +132,7 @@ python src/notificaciones/main.py
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker build . -f notificacion.Dockerfile -t aeroalpes/notificacion
+docker build . -f notificacion.Dockerfile -t saludtech/notificacion
 ```
 
 ### Ejecutar contenedora (sin compose)
@@ -140,7 +140,7 @@ docker build . -f notificacion.Dockerfile -t aeroalpes/notificacion
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker run aeroalpes/notificacion
+docker run saludtech/notificacion
 ```
 
 ## UI Websocket Server
@@ -157,7 +157,7 @@ python src/ui/main.py
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker build . -f ui.Dockerfile -t aeroalpes/ui
+docker build . -f ui.Dockerfile -t saludtech/ui
 ```
 
 ### Ejecutar contenedora (sin compose)
@@ -165,7 +165,7 @@ docker build . -f ui.Dockerfile -t aeroalpes/ui
 Desde el directorio principal ejecute el siguiente comando.
 
 ```bash
-docker run aeroalpes/ui
+docker run saludtech/ui
 ```
 
 ## Microservicio: Clientes
@@ -226,7 +226,7 @@ docker exec -it broker bash
 Ya dentro de la contenedora ejecute:
 
 ```bash
-./bin/pulsar-client consume -s "sub-datos" public/default/aeroalpesdb.reservas.usuarios_legado -n 0
+./bin/pulsar-client consume -s "sub-datos" public/default/saludtechdb.reservas.usuarios_legado -n 0
 ```
 
 ### Consultar tópicos
@@ -331,5 +331,5 @@ fuser -k <puerto>/tcp
 
 ### Correr docker-compose usando profiles
 ```bash
-docker-compose --profile <pulsar|aeroalpes|ui|notificacion> up
+docker-compose --profile <pulsar|saludtech|ui|notificacion> up
 ```

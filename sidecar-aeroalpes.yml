@@ -2,12 +2,12 @@
 # Ejemplo base de Sidecar: Es probable que cuando lo desploiegue en Kubernetes deba modificar este archivo
 # ------------------
 metadata:
-  name: aeroalpes
+  name: saludtech
   labels:
     app: backend
 spec:
   containers:
-    - name: aeroalpes
+    - name: saludtech
       image: # Imagen en Image Registry
     - name: adaptador-grpc
       image: # Imagen en Image Registry
