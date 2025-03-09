@@ -1,0 +1,62 @@
+from orquestador_saga.aplicacion.comandos.ingesta_datos import ComandoCancelarCarga, ComandoIniciarCargarDatos
+from orquestador_saga.aplicacion.comandos.processed_data import ComandoIniciarProcesamientoDatos
+from orquestador_saga.aplicacion.comandos.query_entrenamiento import ComandoCancelarQueryEntrenamiendo, ComandoIniciarQueryEntrenamiendo
+from orquestador_saga.aplicacion.comandos.validacion import ComandoCancelarValidacion, ComandoIniciarValidacion
+from orquestador_saga.dominio.eventos.ingesta_data import EventoCargaFallida, EventoCargaFinalizada, EventoDatosCargados
+from orquestador_saga.dominio.eventos.processed_data import EventoDatosGuardados, EventoProcesamientoDatosFallido
+from orquestador_saga.dominio.eventos.query_entrenamiento import EventoQueryEntrenamiendoFallido, EventoQueryEntrenamiendoFinalizado
+from orquestador_saga.dominio.eventos.validacion import EventoValidacionFallido, EventoValidacionFinalizada
+from processed_data.modulos.aplicacion.comandos.cancelar_procesamiento_datos import ComandoCancelarProcesamientoDatos
+from saludtech.seedwork.aplicacion.sagas import CoordinadorOrquestacion, Transaccion, Inicio, Fin
+from saludtech.seedwork.aplicacion.comandos import Comando
+from saludtech.seedwork.dominio.eventos import EventoDominio
+
+from saludtech.modulos.sagas.aplicacion.comandos.cliente import RegistrarUsuario, ValidarUsuario
+from saludtech.modulos.sagas.aplicacion.comandos.pagos import PagarReserva, RevertirPago
+from saludtech.modulos.sagas.aplicacion.comandos.gds import ConfirmarReserva, RevertirConfirmacion
+from saludtech.modulos.vuelos.aplicacion.comandos.crear_reserva import CrearReserva
+from saludtech.modulos.vuelos.aplicacion.comandos.aprobar_reserva import AprobarReserva
+from saludtech.modulos.vuelos.aplicacion.comandos.cancelar_reserva import CancelarReserva
+from saludtech.modulos.vuelos.dominio.eventos.reservas import ReservaCreada, ReservaCancelada, ReservaAprobada, CreacionReservaFallida, AprobacionReservaFallida
+from saludtech.modulos.sagas.dominio.eventos.pagos import ReservaPagada, PagoRevertido
+from saludtech.modulos.sagas.dominio.eventos.gds import ReservaGDSConfirmada, ConfirmacionGDSRevertida, ConfirmacionFallida
+
+
+class CoordinadorSaludTech(CoordinadorOrquestacion):
+
+    def inicializar_pasos(self):
+        self.pasos = [
+            Inicio(index=0),
+            Transaccion(index=1, comando=ComandoIniciarCargarDatos, evento=EventoCargaFinalizada, error=EventoCargaFallida, compensacion=ComandoCancelarCarga),
+            Transaccion(index=2, comando=ComandoIniciarProcesamientoDatos, evento=EventoDatosGuardados, error=EventoProcesamientoDatosFallido, compensacion=ComandoCancelarProcesamientoDatos),
+            Transaccion(index=3, comando=ComandoIniciarValidacion, evento=EventoValidacionFinalizada, error=EventoValidacionFallido, compensacion=ComandoCancelarValidacion),
+            Transaccion(index=4, comando=ComandoIniciarQueryEntrenamiendo, evento=EventoQueryEntrenamiendoFinalizado, error=EventoQueryEntrenamiendoFallido, compensacion=ComandoCancelarQueryEntrenamiendo),
+            Fin(index=5)
+        ]
+
+    def iniciar(self):
+        self.persistir_en_saga_log(self.pasos[0])
+    
+    def terminar():
+        self.persistir_en_saga_log(self.pasos[-1])
+
+    def persistir_en_saga_log(self, mensaje):
+        # TODO Persistir estado en DB
+        # Probablemente usted podría usar un repositorio para ello
+        ...
+
+    def construir_comando(self, evento: EventoDominio, tipo_comando: type):
+        # TODO Transforma un evento en la entrada de un comando
+        # Por ejemplo si el evento que llega es ReservaCreada y el tipo_comando es PagarReserva
+        # Debemos usar los atributos de ReservaCreada para crear el comando PagarReserva
+        ...
+
+
+
+# TODO Agregue un Listener/Handler para que se puedan redireccionar eventos de dominio
+def oir_mensaje(mensaje):
+    if isinstance(mensaje, EventoDominio):
+        coordinador = CoordinadorReservas()
+        coordinador.procesar_evento(mensaje)
+    else:
+        raise NotImplementedError("El mensaje no es evento de Dominio")
