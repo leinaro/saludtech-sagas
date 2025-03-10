@@ -14,22 +14,8 @@ from orquestador_saga.infraestructura.v1.eventos import EventoCargaFinalizada, E
 from orquestador_saga.seedwork.aplicacion.sagas import CoordinadorOrquestacion, Transaccion, Inicio, Fin
 from orquestador_saga.seedwork.dominio.eventos import EventoDominio
 from orquestador_saga.seedwork.infraestructura import utils
+from aeroalpes.modulos.vuelos.infraestructura.dto import Reserva as ReservaDTO
 
-
-
-"""from saludtech.seedwork.aplicacion.comandos import Comando
-from saludtech.seedwork.dominio.eventos import EventoDominio
-
-from saludtech.modulos.sagas.aplicacion.comandos.cliente import RegistrarUsuario, ValidarUsuario
-from saludtech.modulos.sagas.aplicacion.comandos.pagos import PagarReserva, RevertirPago
-from saludtech.modulos.sagas.aplicacion.comandos.gds import ConfirmarReserva, RevertirConfirmacion
-from saludtech.modulos.vuelos.aplicacion.comandos.crear_reserva import CrearReserva
-from saludtech.modulos.vuelos.aplicacion.comandos.aprobar_reserva import AprobarReserva
-from saludtech.modulos.vuelos.aplicacion.comandos.cancelar_reserva import CancelarReserva
-from saludtech.modulos.vuelos.dominio.eventos.reservas import ReservaCreada, ReservaCancelada, ReservaAprobada, CreacionReservaFallida, AprobacionReservaFallida
-from saludtech.modulos.sagas.dominio.eventos.pagos import ReservaPagada, PagoRevertido
-from saludtech.modulos.sagas.dominio.eventos.gds import ReservaGDSConfirmada, ConfirmacionGDSRevertida, ConfirmacionFallida
-"""
 
 class CoordinadorSaludTech(CoordinadorOrquestacion):
 
@@ -54,6 +40,24 @@ class CoordinadorSaludTech(CoordinadorOrquestacion):
         # Probablemente usted podría usar un repositorio para ello
         print("+++++++++++++++ SAGA LOG +++++++++++++++")
         print(str(mensaje))
+        from aeroalpes.config.db import db
+
+        if not db:
+            logging.error('ERROR: DB del app no puede ser nula')
+            return
+        
+        fabrica_repositorio = FabricaRepositorio()
+        repositorio = fabrica_repositorio.crear_objeto(RepositorioReservas)
+        
+        repositorio.agregar(
+            Reserva(
+                id=str(self.id_reserva), 
+                id_cliente=str(self.id_cliente), 
+                estado=str(self.estado), 
+                fecha_creacion=self.fecha_creacion, 
+                fecha_actualizacion=self.fecha_actualizacion))
+
+
 
     def construir_comando(self, evento: EventoDominio, tipo_comando: type):
         # TODO Transforma un evento en la entrada de un comando
@@ -63,8 +67,7 @@ class CoordinadorSaludTech(CoordinadorOrquestacion):
         print(str(evento))
         print(str(tipo_comando))
         print(str(tipo_comando.__name__))
-
-
+         
         match tipo_comando.__name__:
             case "ComandoIniciarValidacion": #EventoDatoProcesado - EventoDatosGuardados
                 payload = IniciarValidacion(
