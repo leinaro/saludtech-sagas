@@ -29,7 +29,7 @@ class UsuarioDesactivado(Record):
 class DataValidada(Record):
     id = String()
     url = String()
-    fecha_procesado = Long()
+    fecha_validado = Long()
 
 class DataCancelada(Record):
     id = String()

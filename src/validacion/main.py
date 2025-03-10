@@ -21,11 +21,11 @@ tasks = list()
 @app.on_event("startup")
 async def app_startup():
     global tasks
-    task1 = asyncio.ensure_future(suscribirse_a_topico("evento-validacion-finalizada", "sub-validacion", EventoValidacionFinalizada))
+    ##task1 = asyncio.ensure_future(suscribirse_a_topico("evento-validacion-finalizada", "sub-validacion", EventoValidacionFinalizada))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-iniciar-validacion", "sub-com-iniciar-validacion", ComandoIniciarValidacion))
     #task3 = asyncio.ensure_future(suscribirse_a_topico("comando-validacion-manual", "sub-com-validacion-manual", ComandoValidacionManual))
     #task4 = asyncio.ensure_future(suscribirse_a_topico("evento-validacion-cancelada", "sub-com-validacion-cancelada", EventoValidacionCancelada))
-    tasks.append(task1)
+    ##tasks.append(task1)
     tasks.append(task2)
     #tasks.append(task3)
     #tasks.append(task4)

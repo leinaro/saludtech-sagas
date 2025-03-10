@@ -20,7 +20,7 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     mensaje = await consumidor.receive()
                     print(mensaje)
                     datos = mensaje.value()
-                    print(f'Evento recibido****: {datos}')
+                    print(f'Evento recibido: {datos}')
                     print(f'Evento recibido************ type: {datos.type}')
                     print(f'Evento recibido************ datacontenttype: {datos.datacontenttype}')
                     print(f'Evento recibido************ data: {datos.data}')

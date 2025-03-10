@@ -25,12 +25,12 @@ async def app_startup():
     global tasks
   #  task1 = asyncio.ensure_future(suscribirse_a_topico("evento-ingesta-datos", "sub-ingest-data", EventoCargaFinalizada))
     task2 = asyncio.ensure_future(suscribirse_a_topico("evento-procesar-datos", "sub-processed-data", EventoDatoProcesado))
-  #  task3 = asyncio.ensure_future(suscribirse_a_topico("evento-validar", "sub-validar", EventoValidacionFinalizada))
+    task3 = asyncio.ensure_future(suscribirse_a_topico("evento-validacion-finalizada", "sub-validacion", EventoValidacionFinalizada))
   #  task4 = asyncio.ensure_future(suscribirse_a_topico("evento-query-entrenamiento", "sub-query-entrenamiento", EventoQueryEntrenamiendoFinalizado))
 
    # tasks.append(task1)
     tasks.append(task2)
-    #tasks.append(task3)
+    tasks.append(task3)
     #tasks.append(task4)
 
 @app.on_event("shutdown")

@@ -1,3 +1,5 @@
+from validacion.modulos.infraestructura.despachadores import Despachador
+from validacion.modulos.infraestructura.v1.eventos import DataValidada, EventoValidacionFinalizada
 from validacion.seedwork.aplicacion.comandos import Comando, ComandoHandler
 from validacion.seedwork.aplicacion.comandos import ejecutar_commando as comando
 from validacion.modulos.dominio.entidades import ClienteNatural, ClienteEmpresa, Usuario, Validacion
@@ -6,12 +8,13 @@ from dataclasses import dataclass
 import datetime
 import time
 
+from validacion.seedwork.infraestructura import utils
+
 @dataclass
 class ComandoIniciarValidacion(Comando):
     id : str
     url : str
     fecha_inicio_validacion : str
-    tipo: str
 
 class IniciarValidacionHandler(ComandoHandler):
 
@@ -28,10 +31,20 @@ class IniciarValidacionHandler(ComandoHandler):
 
     def handle(self, comando: ComandoIniciarValidacion):
         validacion = self.a_entidad(comando)
+        payload = DataValidada(id = validacion.id, url = validacion.url, fecha_validacion = utils.time_millis())
+        evento = EventoValidacionFinalizada(
+            time=utils.time_millis(),
+            ingestion=utils.time_millis(),
+            datacontenttype=DataValidada.__name__,
+            data = payload
+        )
+        despachador = Despachador()
+        despachador.publicar_mensaje(evento, "evento-validacion-finalizada")
+
+
         
 
 @comando.register(ComandoIniciarValidacion)
-def ejecutar_comando_crear_reserva(comando: ComandoIniciarValidacion):
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+def ejecutar_comando_iniciar_validacion(comando: ComandoIniciarValidacion):
     handler = IniciarValidacionHandler()
     handler.handle(comando)

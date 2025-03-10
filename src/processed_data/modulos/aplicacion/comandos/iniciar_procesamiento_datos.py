@@ -40,6 +40,7 @@ class IniciarProcesamientoDatosHandler(ComandoHandler):
         dato_procesado = self.a_entidad(comando)
         
         
+        
 
 
 @comando.register(ComandoIniciarProcesamientoDatos)

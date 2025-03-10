@@ -5,6 +5,7 @@ import aiopulsar
 import asyncio
 from pulsar.schema import *
 from validacion.seedwork.infraestructura import utils
+from validacion.modulos.aplicacion.comandos.iniciar_validacion import ComandoIniciarValidacion,  ejecutar_comando_iniciar_validacion
 
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
@@ -20,7 +21,18 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     mensaje = await consumidor.receive()
                     print(mensaje)
                     datos = mensaje.value()
-                    print(f'Evento recibido: {datos}')
+                    print(f'Evento recibido: {datos.data}')
+
+                    match datos.type:
+                        case "IniciarValidacion": #IniciarValidacion-IniciarValidacion
+                            ejecutar_comando_iniciar_validacion(
+                                ComandoIniciarValidacion(
+                                    datos.data.id,
+                                    datos.data.url,
+                                    datos.data.fecha_inicio_validacion
+                                )
+                            )
+
                     await consumidor.acknowledge(mensaje)    
 
     except:

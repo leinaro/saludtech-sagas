@@ -30,6 +30,10 @@ class EventoProcesamientoDatosFallido(EventoIntegracion):
     url_raw_data = String()
     url_s3 = String()
 
+class DataValidada(Record):
+    id = String()
+    url = String()
+    fecha_validado = Long()
 
 class EventoDatoProcesado(EventoIntegracion):
     id = String(default=str(uuid.uuid4()))
@@ -47,12 +51,17 @@ class EventoDatoProcesado(EventoIntegracion):
         super().__init__(*args, **kwargs)
 
 class EventoValidacionFinalizada(EventoIntegracion):
-    partner_id = String()
-    user_id = String()
-    url_raw_data = String()
-    url_s3 = String()
-    path = String()
-    es_valido = Boolean()
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="EventoValidacionFinaslizada")
+    datacontenttype = String()
+    service_name = String(default="validacion.saludtech")
+    data_validada = DataValidada
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 class EventoValidacionFallido(EventoIntegracion):
     partner_id = String()
