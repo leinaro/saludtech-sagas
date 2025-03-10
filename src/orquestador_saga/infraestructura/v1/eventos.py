@@ -11,12 +11,25 @@ class EventoCargaFinalizada(EventoIntegracion):
     url_raw_data = String()
     url_s3 = String()
 
+class EventoCargaFallida(EventoIntegracion):
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    
+
 class EventoDatosGuardados(EventoIntegracion):
     partner_id = String()
     user_id = String()
     url_raw_data = String()
     url_s3 = String()
     path = String()
+
+class EventoProcesamientoDatosFallido(EventoIntegracion):
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    url_s3 = String()
+
 
 class EventoDatoProcesado(EventoIntegracion):
     id = String(default=str(uuid.uuid4()))
@@ -41,6 +54,14 @@ class EventoValidacionFinalizada(EventoIntegracion):
     path = String()
     es_valido = Boolean()
 
+class EventoValidacionFallido(EventoIntegracion):
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    url_s3 = String()
+    path = String()
+
+
 class EventoQueryEntrenamiendoFinalizado(EventoIntegracion):
     partner_id = String()
     user_id = String()
@@ -51,4 +72,11 @@ class EventoQueryEntrenamiendoFinalizado(EventoIntegracion):
     entrenamiendo_completado = Boolean()
 
 
+class EventoQueryEntrenamiendoFallido(EventoIntegracion):
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    url_s3 = String()
+    path = String()
+    es_valido = Boolean()
 

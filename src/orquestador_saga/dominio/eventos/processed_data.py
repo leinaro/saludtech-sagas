@@ -11,26 +11,23 @@ class EventoDatoProcesado(EventoDominio):
 @dataclass
 class EventoProcesamientoDatos(EventoDatoProcesado):
 #    id = String()
-    url_raw_data = String()
-    partner_id = String()
-    user_id = String()
-    #tipo_processed_data = TipoDatos
+    url_raw_data: str  = ""
+    partner_id: str = ""
+    user_id: str = ""
 
 @dataclass
 class EventoDatosGuardados(EventoDatoProcesado):
-#    id = String()
-    url_raw_data = String()
-    partner_id = String()
-    user_id = String()
-    #tipo_processed_data = TipoDatos
-    path = String()
+    url_raw_data: str  = ""
+    partner_id: str = ""
+    user_id: str = ""
+    path = str = ""
 
 @dataclass
 class EventoProcesamientoDatosFallido(EventoDatoProcesado):
 #    id = String()
-    url_raw_data = String()
-    partner_id = String()
-    user_id = String()
+    url_raw_data: str  = ""
+    partner_id : str  = ""
+    user_id: str  = ""
 
     #tipo_processed_data = TipoDatos
 

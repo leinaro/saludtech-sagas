@@ -1,7 +1,7 @@
 from pulsar.schema import *
-from cliente.seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
-from cliente.seedwork.infraestructura.utils import time_millis
-from cliente.modulos.infraestructura.v1 import TipoCliente
+from validacion.seedwork.infraestructura.schema.v1.eventos import EventoIntegracion
+from validacion.seedwork.infraestructura.utils import time_millis
+from validacion.modulos.infraestructura.v1 import TipoCliente
 import uuid
 
 

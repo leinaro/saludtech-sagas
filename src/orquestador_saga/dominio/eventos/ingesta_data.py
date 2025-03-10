@@ -9,15 +9,14 @@ class EventoIngestaData(EventoDominio):
 
 @dataclass
 class EventoCargaFinalizada(EventoIngestaData):
-    partner_id: str
-    user_id: str
-    url_raw_data: str
-    url_s3: str
-
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    url_s3 = String()
 
 @dataclass
 class EventoCargaFallida(EventoIngestaData):
-    partner_id: str
-    user_id: str
-    url_raw_data: str
-    url_s3: str
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    url_s3 = String()

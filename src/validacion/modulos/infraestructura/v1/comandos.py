@@ -1,8 +1,8 @@
 from pulsar.schema import *
 from dataclasses import dataclass, field
-from cliente.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
-from cliente.seedwork.infraestructura.utils import time_millis
-from cliente.modulos.infraestructura.v1 import TipoCliente
+from validacion.seedwork.infraestructura.schema.v1.comandos import (ComandoIntegracion)
+from validacion.seedwork.infraestructura.utils import time_millis
+from validacion.modulos.infraestructura.v1 import TipoCliente
 import uuid
 
 
@@ -77,7 +77,7 @@ class ComandoIniciarValidacion(ComandoIntegracion):
     specversion = String(default="v1")
     type = String(default="IniciarValidacion")
     datacontenttype = String()
-    service_name = String(default="cliente.saludtech")
+    service_name = String(default="validacion.saludtech")
     data = IniciarValidacion
 
     def __init__(self, *args, **kwargs):

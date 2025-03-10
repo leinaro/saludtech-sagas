@@ -1,5 +1,7 @@
 import logging
 import traceback
+from orquestador_saga.aplicacion.coordinadores.saga_ingesta_datos import oir_mensaje
+from orquestador_saga.dominio.eventos.processed_data import EventoDatoProcesado, EventoDatosGuardados
 import pulsar, _pulsar
 import aiopulsar
 import asyncio
@@ -21,12 +23,24 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     mensaje = await consumidor.receive()
                     print(mensaje)
                     datos = mensaje.value()
-                    print(f'Evento recibido++++: {datos}')
-                    print(f'Evento recibido++++ type: {datos.type}')
-                    print(f'Evento recibido++++ datacontenttype: {datos.datacontenttype}')
-                    #print(f'Evento recibido++++ data: {datos.data}')
-                    #print(f'Evento recibido++++ tipo_processed_data: {datos.data.tipo_processed_data}')
+                    print(f'*********** Evento recibido *********** ')
+                    print(f'*** Tipo {datos.type} - {datos.datacontenttype}')
+                    print(f'*** Payload: {str(datos)}')
+                    print(f'*************************************** ')
 
+                    match datos.datacontenttype:
+                        case "EventoDatosGuardados": #EventoDatoProcesado - EventoDatosGuardados
+                            oir_mensaje(EventoDatosGuardados(
+                                datos.dato_procesado_guardado.url_raw_data,
+                                datos.dato_procesado_guardado.partner_id,
+                                datos.dato_procesado_guardado.user_id
+                            ))
+
+
+
+
+                    
+                   
                     """
 
                     ejecutar_comando_iniciar_procesamiento_datos(

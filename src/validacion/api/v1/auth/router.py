@@ -1,15 +1,15 @@
 from fastapi import APIRouter, status, BackgroundTasks
-from cliente.modulos.aplicacion.comandos.registrar_usuario import ComandoRegistrarUsuario
-from cliente.seedwork.presentacion.dto import RespuestaAsincrona
-from cliente.seedwork.aplicacion.comandos import ejecutar_commando
-from cliente.seedwork.aplicacion.queries import ejecutar_query
+from validacion.modulos.aplicacion.comandos.registrar_usuario import ComandoRegistrarUsuario
+from validacion.seedwork.presentacion.dto import RespuestaAsincrona
+from validacion.seedwork.aplicacion.comandos import ejecutar_commando
+from validacion.seedwork.aplicacion.queries import ejecutar_query
 
 from .dto import RegistrarUsuario
 
 
 router = APIRouter()
 
-@router.post("/registrar", status_code=status.HTTP_202_ACCEPTED, response_model=RespuestaAsincrona)
+@router.post("/validar", status_code=status.HTTP_202_ACCEPTED, response_model=RespuestaAsincrona)
 async def registrar_usuario(registrar_usuario: RegistrarUsuario, background_tasks: BackgroundTasks) -> dict[str, str]:
     comando = ComandoRegistrarUsuario(
         nombres=registrar_usuario.nombres,
@@ -19,4 +19,4 @@ async def registrar_usuario(registrar_usuario: RegistrarUsuario, background_task
         es_empresarial=registrar_usuario.es_empresarial
         )
     background_tasks.add_task(ejecutar_commando, comando)
-    return RespuestaAsincrona(mensaje="Registro de usuario en proceso")
+    return RespuestaAsincrona(mensaje="Validacion en proceso")

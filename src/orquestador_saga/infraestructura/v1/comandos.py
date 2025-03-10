@@ -59,3 +59,41 @@ class ComandoCancelarProcesamientoDatos(ComandoIntegracion):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+class IniciarValidacion(Record):
+    id = String()
+    url = String()
+    fecha_inicio_validacion = Long()
+
+
+class CancelarValidacion(Record):
+    id = String()
+    url = String()
+    fecha_cancelacion = Long()
+
+class ComandoIniciarValidacion(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="IniciarValidacion")
+    datacontenttype = String()
+    service_name = String(default="validacion.saludtech")
+    data = IniciarValidacion
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class ComandoCancelarValidacion(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="CancelarValidacion")
+    datacontenttype = String()
+    service_name = String(default="validacion.saludtech")
+    data = CancelarValidacion
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
