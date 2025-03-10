@@ -6,4 +6,4 @@ class Config(BaseSettings):
 
 settings = Config()
 
-app_configs: dict[str, Any] = {"title": "Cliente SaludTech"}
+app_configs: dict[str, Any] = {"title": "Orquestador sagas SaludTech"}

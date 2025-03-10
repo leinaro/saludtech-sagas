@@ -4,7 +4,7 @@
 from processed_data.seedwork.aplicacion.handlers import Handler
 
 
-from processed_data.modulos.infraestructura.v1.eventos import EventoDatoProcesado, DatoProcesadoGuardado, ProcesamientoDatosCancelado, ProcesamientoDatosIniciado, TipoDatos
+from processed_data.modulos.infraestructura.v1.eventos import EventoDatoProcesado, EventoDatosGuardados, ProcesamientoDatosCancelado, ProcesamientoDatosIniciado, TipoDatos
 from processed_data.modulos.infraestructura.v1.comandos import ComandoIniciarProcesamientoDatos, ComandoGuardarDatoProcesado, ComandoCancelarProcesamientoDatos, ProcesarDatos, GuardarDatoProcesado, CancelarProcesamientoDatos
 from processed_data.modulos.infraestructura.v1 import TipoDatos
 from processed_data.modulos.infraestructura.despachadores import Despachador

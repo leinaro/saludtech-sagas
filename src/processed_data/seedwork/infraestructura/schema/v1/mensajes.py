@@ -1,7 +1,7 @@
 import uuid
 
 from pulsar.schema import *
-from saludtech.seedwork.infraestructura.utils import time_millis
+from processed_data.seedwork.infraestructura.utils import time_millis
 
 class Mensaje(Record):
     id = String(default=str(uuid.uuid4()))

@@ -1,4 +1,4 @@
-name: Pull Request AeroAlpes
+name: Pull Request SaludTech
 'on':
   pull_request:
     branches:

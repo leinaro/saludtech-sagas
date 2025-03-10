@@ -6,7 +6,7 @@ Este repositorio está basado en el repositorio de Event Sourcing visto en el tu
 
 ## Estructura del proyecto
 
-Este repositorio sigue en general la misma estructura del repositorio de origen. Sin embargo, la estructura de nuestro proyecto de AeroAlpes ha cambiado considerablemente, puesto que se ha desmantelado el monolito en multiples microservicios. A continuación puede ver la nueva estructura:
+Este repositorio sigue en general la misma estructura del repositorio de origen. Sin embargo, la estructura de nuestro proyecto de SaludTech ha cambiado considerablemente, puesto que se ha desmantelado el monolito en multiples microservicios. A continuación puede ver la nueva estructura:
 
 - El directorio **src/cliente/** ahora incluye todas las clases y archivos que constituyen el contexto del manejo de usuarios.
 - El directorio **src/integracion_gds/** ahora incluye todas las clases y archivos que constituyen el contexto con la integración con GDS.
@@ -16,7 +16,7 @@ Este repositorio sigue en general la misma estructura del repositorio de origen.
     - Módulo `coordinadores` que cuenta con la saga de reservas usando orquestación.
 - Los archivos **src/saludtech/seedwork/aplicacion/sagas.py** provee las interfaces y definiciones genéricas para la coordinación de sagas.
 
-## AeroAlpes
+## SaludTech
 ### Ejecutar Base de datos
 Desde el directorio principal ejecute el siguiente comando.
 

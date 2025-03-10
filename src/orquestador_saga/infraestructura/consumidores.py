@@ -4,8 +4,9 @@ import pulsar, _pulsar
 import aiopulsar
 import asyncio
 from pulsar.schema import *
-from processed_data.seedwork.infraestructura import utils
-from processed_data.modulos.aplicacion.comandos.iniciar_procesamiento_datos import ComandoIniciarProcesamientoDatos, ejecutar_comando_iniciar_procesamiento_datos
+from orquestador_saga.seedwork.infraestructura import utils
+#from orquestador_saga.dominio.eventos.ingesta_data import EventoCargaFinalizada
+#from orquestador_saga.aplicacion.comandos.ingesta_datos import ComandoIniciarProcesamientoDatos, ejecutar_comando_iniciar_procesamiento_datos
 
 async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, tipo_consumidor:_pulsar.ConsumerType=_pulsar.ConsumerType.Shared):
     try:
@@ -20,11 +21,11 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     mensaje = await consumidor.receive()
                     print(mensaje)
                     datos = mensaje.value()
-                    print(f'Evento recibido****: {datos}')
-                    print(f'Evento recibido************ type: {datos.type}')
-                    print(f'Evento recibido************ datacontenttype: {datos.datacontenttype}')
-                    print(f'Evento recibido************ data: {datos.data}')
-                    #print(f'Evento recibido************ tipo_processed_data: {datos.data.tipo_processed_data}')
+                    print(f'Evento recibido++++: {datos}')
+                    print(f'Evento recibido++++ type: {datos.type}')
+                    print(f'Evento recibido++++ datacontenttype: {datos.datacontenttype}')
+                    #print(f'Evento recibido++++ data: {datos.data}')
+                    #print(f'Evento recibido++++ tipo_processed_data: {datos.data.tipo_processed_data}')
 
                     """
 

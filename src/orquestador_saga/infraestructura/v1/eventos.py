@@ -5,29 +5,18 @@ from processed_data.modulos.infraestructura.v1 import TipoDatos
 import uuid
 
 
-
-# NOTE En este caso usamos composición de eventos, donde un evento DatoProcesado es constituido 
-# por los eventos hijo. Recuerde que al ser mensajes inmutables, no consideramos conceptos como
-# la herencia en los registros de esquemas. Por lo que el patrón de composición de mensajes se vuelve una buena opción
-# esto nos permite seguir teniendo esquemas estrictos sin la necesidad de múltiples tópicos
-class ProcesamientoDatosIniciado(Record):
-    id = String()
-    url_raw_data = String()
+class EventoCargaFinalizada(EventoIntegracion):
     partner_id = String()
     user_id = String()
-    #tipo_processed_data = TipoDatos
-    fecha_inicio = Long()
+    url_raw_data = String()
+    url_s3 = String()
 
-class EventoDatosGuardados(Record):
+class EventoDatosGuardados(EventoIntegracion):
     partner_id = String()
     user_id = String()
     url_raw_data = String()
     url_s3 = String()
     path = String()
-
-class ProcesamientoDatosCancelado(Record):
-    id = String()
-    fecha_cancelacion = Long()
 
 class EventoDatoProcesado(EventoIntegracion):
     id = String(default=str(uuid.uuid4()))
@@ -43,3 +32,23 @@ class EventoDatoProcesado(EventoIntegracion):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+class EventoValidacionFinalizada(EventoIntegracion):
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    url_s3 = String()
+    path = String()
+    es_valido = Boolean()
+
+class EventoQueryEntrenamiendoFinalizado(EventoIntegracion):
+    partner_id = String()
+    user_id = String()
+    url_raw_data = String()
+    url_s3 = String()
+    path = String()
+    es_valido = Boolean()
+    entrenamiendo_completado = Boolean()
+
+
+

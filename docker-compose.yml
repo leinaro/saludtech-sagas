@@ -104,7 +104,7 @@ services:
       - SYS_NICE
     restart: always
     environment:
-      - MYSQL_DATABASE=reservas
+      - MYSQL_DATABASE=saludtech
       - MYSQL_ROOT_PASSWORD=adminadmin
     profiles: ["saludtech", "db"]
     networks:
@@ -114,7 +114,7 @@ services:
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql  
-  # Servicios de AeroAlpes
+  # Servicios de SaludTech
   saludtech:
     container_name: saludtech
     hostname: saludtech
@@ -129,7 +129,7 @@ services:
       - broker
       - db
     environment:
-      - AEROALPES_ADDRESS=saludtech
+      - SALUDTECH_ADDRESS=saludtech
       - PULSAR_ADDRESS=broker
     ports:
       - "5000:5000"

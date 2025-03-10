@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 
-from cliente.seedwork.dominio.entidades import AgregacionRaiz
+from processed_data.seedwork.dominio.entidades import AgregacionRaiz
 from pydispatch import dispatcher
 
 import pickle
@@ -72,7 +72,7 @@ class UnidadTrabajo(ABC):
     def savepoint(self):
         raise NotImplementedError
 
-    def registrar_batch(self, operacion, *args, lock=Lock.PESIMISTA, repositorio_eventos_func=None,**kwargs):
+    def procesar_batch(self, operacion, *args, lock=Lock.PESIMISTA, repositorio_eventos_func=None,**kwargs):
         batch = Batch(operacion, lock, *args, **kwargs)
         self.batches.append(batch)
         self._publicar_eventos_dominio(batch, repositorio_eventos_func)
@@ -99,7 +99,7 @@ def is_flask():
     except Exception as e:
         return False
 
-def registrar_unidad_de_trabajo(serialized_obj):
+def procesar_unidad_de_trabajo(serialized_obj):
     from saludtech.config.uow import UnidadTrabajoSQLAlchemy
     from flask import session
     
@@ -116,7 +116,7 @@ def flask_uow():
     if session.get('uow_metodo') == 'pulsar':
         uow_serialized = pickle.dumps(UnidadTrabajoPulsar())
     
-    registrar_unidad_de_trabajo(uow_serialized)
+    procesar_unidad_de_trabajo(uow_serialized)
     return uow_serialized
 
 def unidad_de_trabajo() -> UnidadTrabajo:
@@ -127,7 +127,7 @@ def unidad_de_trabajo() -> UnidadTrabajo:
 
 def guardar_unidad_trabajo(uow: UnidadTrabajo):
     if is_flask():
-        registrar_unidad_de_trabajo(pickle.dumps(uow))
+        procesar_unidad_de_trabajo(pickle.dumps(uow))
     else:
         raise Exception('No hay unidad de trabajo')
 
@@ -158,7 +158,7 @@ class UnidadTrabajoPuerto:
         return uow.savepoints()
 
     @staticmethod
-    def registrar_batch(operacion, *args, lock=Lock.PESIMISTA, **kwargs):
+    def procesar_batch(operacion, *args, lock=Lock.PESIMISTA, **kwargs):
         uow = unidad_de_trabajo()
-        uow.registrar_batch(operacion, *args, lock=lock, **kwargs)
+        uow.procesar_batch(operacion, *args, lock=lock, **kwargs)
         guardar_unidad_trabajo(uow)
