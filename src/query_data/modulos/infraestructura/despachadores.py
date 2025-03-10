@@ -1,7 +1,7 @@
 import pulsar
 from pulsar.schema import *
 
-from cliente.seedwork.infraestructura import utils
+from query_data.seedwork.infraestructura import utils
 
 class Despachador:
     def __init__(self):

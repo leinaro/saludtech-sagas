@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from cliente.config.api import app_configs, settings
-from cliente.api.v1.router import router as v1
+from query_data.config.api import app_configs, settings
+from query_data.api.v1.router import router as v1
 from query_data.modulos.infraestructura.consumidores import suscribirse_a_topico
 from query_data.modulos.infraestructura.v1.eventos import EventoQueryEntrenamientoFinalizado, EventoQueryEntrenamiendoFallido
 from query_data.modulos.infraestructura.v1.comandos import ComandoIniciarQueryEntrenamiento, ComandoCancelarQueryEntrenamiento
@@ -18,10 +18,10 @@ tasks = list()
 @app.on_event("startup")
 async def app_startup():
     global tasks
-    task1 = asyncio.ensure_future(suscribirse_a_topico("evento-query-entrenamiento", "sub-query", EventoQueryEntrenamientoFinalizado))
+    #task1 = asyncio.ensure_future(suscribirse_a_topico("evento-query-entrenamiento", "sub-query", EventoQueryEntrenamientoFinalizado))
     task2 = asyncio.ensure_future(suscribirse_a_topico("comando-iniciar-query-entrenamiento", "sub-com-iniciar-query", ComandoIniciarQueryEntrenamiento))
     task3 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-query-entrenamiento", "sub-com-cancelar-query", ComandoCancelarQueryEntrenamiento))
-    tasks.append(task1)
+    #tasks.append(task1)
     tasks.append(task2)
     tasks.append(task3)
 

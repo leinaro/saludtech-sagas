@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, BackgroundTasks
-from cliente.modulos.aplicacion.comandos.registrar_usuario import ComandoRegistrarUsuario
-from cliente.seedwork.presentacion.dto import RespuestaAsincrona
-from cliente.seedwork.aplicacion.comandos import ejecutar_commando
-from cliente.seedwork.aplicacion.queries import ejecutar_query
+from validacion.modulos.aplicacion.comandos.registrar_usuario import ComandoRegistrarUsuario
+from validacion.seedwork.presentacion.dto import RespuestaAsincrona
+from validacion.seedwork.aplicacion.comandos import ejecutar_commando
+from validacion.seedwork.aplicacion.queries import ejecutar_query
 
 from .dto import RegistrarUsuario
 
