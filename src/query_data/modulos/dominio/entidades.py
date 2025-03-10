@@ -12,5 +12,5 @@ from .objetos_valor import Nombre, Email, Cedula, Rut
 
 @dataclass
 class IngestedData(Entidad):
-    nombre: str = field(default="")
-    partner_id: int = field(default=0)
+    data: str = field(default="")
+    partner_id: str = field(default="")
