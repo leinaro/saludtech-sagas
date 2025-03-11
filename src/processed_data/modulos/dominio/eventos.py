@@ -10,7 +10,6 @@ class ProcesamientoDatosIniciado():
     url_raw_data = String()
     partner_id = String()
     user_id = String()
-    #tipo_processed_data = TipoDatos
     fecha_inicio = Long()
 
 class ProcesamientoDatosFallido():
@@ -18,7 +17,6 @@ class ProcesamientoDatosFallido():
     url_raw_data = String()
     partner_id = String()
     user_id = String()
-    #tipo_processed_data = TipoDatos
     fecha_inicio = Long()
 
 class DatoProcesadoGuardado():

@@ -27,9 +27,10 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                         case "IniciarValidacion": #IniciarValidacion-IniciarValidacion
                             ejecutar_comando_iniciar_validacion(
                                 ComandoIniciarValidacion(
-                                    datos.data.id,
-                                    datos.data.url,
-                                    datos.data.fecha_inicio_validacion
+                                    datos.data.url_raw_data,
+                                    datos.data.partner_id,
+                                    datos.data.user_id,
+                                    datos.data.url_s3
                                 )
                             )
 

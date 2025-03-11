@@ -22,10 +22,11 @@ class DesactivarUsuario(Record):
     fecha_desactivacion = Long()
 
 class IniciarValidacion(Record):
-    id = String()
-    url = String()
-    fecha_inicio_validacion = Long()
-
+    url_raw_data = String()
+    partner_id = String()
+    user_id = String()
+    url_s3 = String()
+    
 class ValidacionManual(Record):
     id = String()
     url = String()
@@ -82,6 +83,7 @@ class ComandoIniciarValidacion(ComandoIntegracion):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
 
 class ComandoValidacionManual(ComandoIntegracion):
     id = String(default=str(uuid.uuid4()))

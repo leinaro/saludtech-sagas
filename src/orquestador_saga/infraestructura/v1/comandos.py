@@ -5,21 +5,60 @@ from processed_data.seedwork.infraestructura.utils import time_millis
 from processed_data.modulos.infraestructura.v1 import TipoDatos
 import uuid
 
-
+class CargarDatos(Record):
+    url_raw_data = String()
+    partner_id = String()
+    user_id = String()
+    
 class ProcesarDatos(Record):
     url_raw_data = String()
     partner_id = String()
     user_id = String()
-    #tipo_processed_data = TipoDatos
-    fecha_creacion = Long()
+    url_s3 = String()
+    
+class IniciarValidacion(Record):
+    url_raw_data = String()
+    partner_id = String()
+    user_id = String()
+    url_s3 = String()
 
-class GuardarDatoProcesado(Record):
-    id = String()
-    fecha_guardado = Long()
+class QueryEntrenamiento(Record):
+    url_raw_data = String()
+    partner_id = String()
+    user_id = String()
+    url_s3 = String()
+    es_valido = Boolean()
+    
+    
 
-class CancelarProcesamientoDatos(Record):
-    id = String()
-    fecha_cacelacion = Long()
+class ComandoIniciarCargaDatos(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="CargarDatos")
+    datacontenttype = String()
+    service_name = String(default="CargarDatos.saludtech")
+    data = CargarDatos
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class ComandoCancelarCargaDatos(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="CargarDatos")
+    datacontenttype = String()
+    service_name = String(default="CargarDatos.saludtech")
+    data = CargarDatos
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
 
 class ComandoIniciarProcesamientoDatos(ComandoIntegracion):
     id = String(default=str(uuid.uuid4()))
@@ -28,21 +67,8 @@ class ComandoIniciarProcesamientoDatos(ComandoIntegracion):
     specversion = String(default="v1")
     type = String(default="ProcesarDatos")
     datacontenttype = String()
-    service_name = String(default="processed_data.saludtech")
+    service_name = String(default="ProcesarDatos.saludtech")
     data = ProcesarDatos
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-class ComandoGuardarDatoProcesado(ComandoIntegracion):
-    id = String(default=str(uuid.uuid4()))
-    time = Long()
-    ingestion = Long(default=time_millis())
-    specversion = String(default="v1")
-    type = String(default="GuardarDatoProcesado")
-    datacontenttype = String()
-    service_name = String(default="processed_data.saludtech")
-    data = GuardarDatoProcesado
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -52,24 +78,14 @@ class ComandoCancelarProcesamientoDatos(ComandoIntegracion):
     time = Long()
     ingestion = Long(default=time_millis())
     specversion = String(default="v1")
-    type = String(default="CancelarProcesamientoDatos")
+    type = String(default="ProcesarDatos")
     datacontenttype = String()
-    service_name = String(default="processed_data.saludtech")
-    data = CancelarProcesamientoDatos
+    service_name = String(default="ProcesarDatos.saludtech")
+    data = ProcesarDatos
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-class IniciarValidacion(Record):
-    id = String()
-    url = String()
-    fecha_inicio_validacion = Long()
-
-
-class CancelarValidacion(Record):
-    id = String()
-    url = String()
-    fecha_cancelacion = Long()
+        
 
 class ComandoIniciarValidacion(ComandoIntegracion):
     id = String(default=str(uuid.uuid4()))
@@ -90,10 +106,38 @@ class ComandoCancelarValidacion(ComandoIntegracion):
     time = Long()
     ingestion = Long(default=time_millis())
     specversion = String(default="v1")
-    type = String(default="CancelarValidacion")
+    type = String(default="IniciarValidacion")
     datacontenttype = String()
     service_name = String(default="validacion.saludtech")
-    data = CancelarValidacion
+    data = IniciarValidacion
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        
+class ComandoIniciarQueryEntrenamiento(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="QueryEntrenamiento")
+    datacontenttype = String()
+    service_name = String(default="QueryEntrenamiento.saludtech")
+    data = QueryEntrenamiento
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class ComandoCancelarQueryEntrenamiento(ComandoIntegracion):
+    id = String(default=str(uuid.uuid4()))
+    time = Long()
+    ingestion = Long(default=time_millis())
+    specversion = String(default="v1")
+    type = String(default="QueryEntrenamiento")
+    datacontenttype = String()
+    service_name = String(default="QueryEntrenamiento.saludtech")
+    data = QueryEntrenamiento
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

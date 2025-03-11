@@ -56,7 +56,7 @@ class EventoValidacionFinalizada(EventoIntegracion):
     time = Long()
     ingestion = Long(default=time_millis())
     specversion = String(default="v1")
-    type = String(default="EventoValidacionFinaslizada")
+    type = String(default="EventoValidacionFinalizada")
     datacontenttype = String()
     service_name = String(default="validacion.saludtech")
     data_validada = DataValidada

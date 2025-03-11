@@ -1,7 +1,8 @@
 import logging
 import traceback
 from orquestador_saga.aplicacion.coordinadores.saga_ingesta_datos import oir_mensaje
-from orquestador_saga.dominio.eventos.processed_data import EventoDatoProcesado, EventoDatosGuardados
+from orquestador_saga.dominio.eventos.processed_data import EventoProcesamientoDatosFinalizado
+from orquestador_saga.dominio.eventos.validacion import EventoValidacionFinalizada, EventoValidacionFallido
 import pulsar, _pulsar
 import aiopulsar
 import asyncio
@@ -25,32 +26,25 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     datos = mensaje.value()
                     print(f'*********** Evento recibido *********** ')
                     print(f'*** Tipo {datos.type} - {datos.datacontenttype}')
-                    print(f'*** Payload: {str(datos)}')
                     print(f'*************************************** ')
+                    print(f'*** Payload: {str(datos)}')
+
 
                     match datos.datacontenttype:
-                        case "EventoDatosGuardados": #EventoDatoProcesado - EventoDatosGuardados
-                            oir_mensaje(EventoDatosGuardados(
-                                datos.dato_procesado_guardado.url_raw_data,
-                                datos.dato_procesado_guardado.partner_id,
-                                datos.dato_procesado_guardado.user_id
+                        case "EventoProcesamientoDatosFinalizado": #EventoProcesamientoDatosFinalizado - EventoProcesamientoDatosFinalizado
+                            oir_mensaje(EventoProcesamientoDatosFinalizado(
+                                datos.procesamiento_datos_finalizado.url_raw_data,
+                                datos.procesamiento_datos_finalizado.partner_id,
+                                datos.procesamiento_datos_finalizado.user_id
                             ))
-
-
-
-
-                    
-                   
-                    """
-
-                    ejecutar_comando_iniciar_procesamiento_datos(
-                        ComandoIniciarProcesamientoDatos(
-                            datos.data.partner_id,
-                            datos.data.user_id,
-                            datos.data.url_raw_data,
-                            #datos.data.tipo_processed_data.name
-                        )
-                    )"""
+                        case "DataValidada":
+                            oir_mensaje(EventoValidacionFinalizada(
+                                "datos.query_entrenamiento.url_raw_data",
+                                "datos.query_entrenamiento.partner_id",
+                                "datos.query_entrenamiento.user_id",
+                                "datos.query_entrenamiento.path",
+                                True#datos.query_entrenamiento.es_valido
+                            ))    
             
                     await consumidor.acknowledge(mensaje)    
 

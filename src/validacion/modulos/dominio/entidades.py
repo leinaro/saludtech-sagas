@@ -17,9 +17,10 @@ class Usuario(Entidad):
 
 @dataclass
 class Validacion(Entidad):
-    id: str = None
-    fecha_validacion: datetime = None
-    url: str = None
+    url_raw_data: str = ""
+    partner_id: str = ""
+    user_id: str = ""
+    url_s3: str = ""
 
 @dataclass
 class ClienteNatural(Usuario, AgregacionRaiz):

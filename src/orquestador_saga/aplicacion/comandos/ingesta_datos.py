@@ -1,5 +1,5 @@
 
-class ComandoIniciarCargarDatos():
+class ComandoIniciarCargaDatos():
     partner_id: str
     user_id: str
     url_raw_data: str

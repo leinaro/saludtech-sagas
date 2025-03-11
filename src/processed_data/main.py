@@ -3,7 +3,8 @@ from processed_data.config.api import app_configs, settings
 from processed_data.api.v1.router import router as v1
 
 from processed_data.modulos.infraestructura.consumidores import suscribirse_a_topico
-from processed_data.modulos.infraestructura.v1.eventos import EventoDatoProcesado, EventoDatosGuardados, ProcesamientoDatosCancelado, ProcesamientoDatosIniciado, TipoDatos
+from processed_data.modulos.infraestructura.v1.eventos import EventoProcesamientoDatos
+from processed_data.modulos.infraestructura.v1.eventos import EventoProcesamientoDatosFinalizado, EventoProcesamientoDatosFinalizado, ProcesamientoDatosCancelado, ProcesamientoDatosIniciado, TipoDatos
 from processed_data.modulos.infraestructura.v1.comandos import ComandoIniciarProcesamientoDatos, ComandoGuardarDatoProcesado, ComandoCancelarProcesamientoDatos, ProcesarDatos, GuardarDatoProcesado, CancelarProcesamientoDatos
 from processed_data.modulos.infraestructura.v1 import TipoDatos
 from processed_data.modulos.infraestructura.despachadores import Despachador
@@ -21,8 +22,8 @@ tasks = list()
 @app.on_event("startup")
 async def app_startup():
     global tasks
-    #task1 = asyncio.ensure_future(suscribirse_a_topico("evento-procesar-datos", "sub-processed-data", EventoDatoProcesado))
-    #task2 = asyncio.ensure_future(suscribirse_a_topico("comando-iniciar-procesamiento-datos", "sub-com-iniciar-procesamiento-datos", ComandoIniciarProcesamientoDatos))
+    #task1 = asyncio.ensure_future(suscribirse_a_topico("evento-procesar-datos", "sub-processed-data", EventoProcesamientoDatosFinalizado))
+    task2 = asyncio.ensure_future(suscribirse_a_topico("comando-iniciar-procesamiento-datos", "sub-com-iniciar-procesamiento-datos", ComandoIniciarProcesamientoDatos))
     #task3 = asyncio.ensure_future(suscribirse_a_topico("comando-guardar-datos-procesados", "sub-com-guardar-datos-procesados", ComandoGuardarDatoProcesado))
     #task4 = asyncio.ensure_future(suscribirse_a_topico("comando-cancelar-procesamiento-datos", "sub-com-cancelar-procesamiento-datos", ComandoCancelarProcesamientoDatos))
     #tasks.append(task1)
@@ -46,7 +47,7 @@ async def prueba_procesamiento_datos_iniciado() -> dict[str, str]:
         #tipo_processed_data = TipoDatos.imagen_medica,
         fecha_inicio = utils.time_millis())
 
-    evento = EventoDatoProcesado(
+    evento = EventoProcesamientoDatosFinalizado(
         time=utils.time_millis(),
         ingestion=utils.time_millis(),
         datacontenttype=ProcesamientoDatosIniciado.__name__,
@@ -59,7 +60,7 @@ async def prueba_procesamiento_datos_iniciado() -> dict[str, str]:
 @app.get("/prueba-procesamiento-datos-cancelado", include_in_schema=False)
 async def prueba_procesamiento_datos_cancelado() -> dict[str, str]:
     payload = ProcesamientoDatosCancelado(id = "1232321321", fecha_cancelacion = utils.time_millis())
-    evento = EventoDatoProcesado(
+    evento = EventoProcesamientoDatosFinalizado(
         time=utils.time_millis(),
         ingestion=utils.time_millis(),
         datacontenttype=ProcesamientoDatosCancelado.__name__,
@@ -71,15 +72,21 @@ async def prueba_procesamiento_datos_cancelado() -> dict[str, str]:
 
 @app.get("/prueba-dato-procesado-guardado", include_in_schema=False)
 async def prueba_guardar_dato_procesado() -> dict[str, str]:
-    payload = EventoDatosGuardados(id = "1232321321", fecha_guardado = utils.time_millis())
-    evento = EventoDatoProcesado(
+    payload = EventoProcesamientoDatosFinalizado(
+        partner_id = "1234567890",
+        user_id = "0987654321",
+        url_raw_data = "www.google.com",
+        url_s3 = "www.google.com.s3",
+        path = "www.google.com.s3.path"
+    )
+    evento = EventoProcesamientoDatos(
         time=utils.time_millis(),
         ingestion=utils.time_millis(),
-        datacontenttype=EventoDatosGuardados.__name__,
-        dato_procesado_guardado = payload
+        datacontenttype=EventoProcesamientoDatosFinalizado.__name__,
+        procesamient_datos_finalizado = payload
     )
     despachador = Despachador()
-    despachador.publicar_mensaje(evento, "evento-procesar-datos")
+    despachador.publicar_mensaje(evento, "evento-procesar-datos-finalizado")
     return {"status": "ok"}
 
 @app.get("/prueba-procesar-datos", include_in_schema=False)

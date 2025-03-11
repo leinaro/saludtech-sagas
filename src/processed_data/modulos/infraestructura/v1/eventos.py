@@ -15,10 +15,9 @@ class ProcesamientoDatosIniciado(Record):
     url_raw_data = String()
     partner_id = String()
     user_id = String()
-    #tipo_processed_data = TipoDatos
     fecha_inicio = Long()
 
-class EventoDatosGuardados(Record):
+class EventoProcesamientoDatosFinalizado(Record):
     partner_id = String()
     user_id = String()
     url_raw_data = String()
@@ -29,17 +28,15 @@ class ProcesamientoDatosCancelado(Record):
     id = String()
     fecha_cancelacion = Long()
 
-class EventoDatoProcesado(EventoIntegracion):
+class EventoProcesamientoDatos(EventoIntegracion):
     id = String(default=str(uuid.uuid4()))
     time = Long()
     ingestion = Long(default=time_millis())
     specversion = String(default="v1")
-    type = String(default="EventoDatoProcesado")
+    type = String(default="EventoProcesamientoDatosFinalizado")
     datacontenttype = String()
     service_name = String(default="processed_data.saludtech")
-    #procesamiento_datos_iniciado = ProcesamientoDatosIniciado
-    dato_procesado_guardado = EventoDatosGuardados
-    #procesamiento_datos_cancelado = ProcesamientoDatosCancelado
+    procesamiento_datos_finalizado = EventoProcesamientoDatosFinalizado
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

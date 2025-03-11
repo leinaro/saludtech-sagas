@@ -4,7 +4,7 @@
 from processed_data.seedwork.aplicacion.handlers import Handler
 
 
-from processed_data.modulos.infraestructura.v1.eventos import EventoDatoProcesado, EventoDatosGuardados, ProcesamientoDatosCancelado, ProcesamientoDatosIniciado, TipoDatos
+from processed_data.modulos.infraestructura.v1.eventos import EventoProcesamientoDatosFinalizado, EventoProcesamientoDatosFinalizado, ProcesamientoDatosCancelado, ProcesamientoDatosIniciado, TipoDatos
 from processed_data.modulos.infraestructura.v1.comandos import ComandoIniciarProcesamientoDatos, ComandoGuardarDatoProcesado, ComandoCancelarProcesamientoDatos, ProcesarDatos, GuardarDatoProcesado, CancelarProcesamientoDatos
 from processed_data.modulos.infraestructura.v1 import TipoDatos
 from processed_data.modulos.infraestructura.despachadores import Despachador
@@ -27,7 +27,7 @@ class HandlerProcesarDatosIntegracion(Handler):
             #tipo_processed_data = TipoDatos.imagen_medica,
             fecha_inicio = utils.time_millis())
 
-        evento = EventoDatoProcesado(
+        evento = EventoProcesamientoDatosFinalizado(
             time=utils.time_millis(),
             ingestion=utils.time_millis(),
             datacontenttype=ProcesamientoDatosIniciado.__name__,

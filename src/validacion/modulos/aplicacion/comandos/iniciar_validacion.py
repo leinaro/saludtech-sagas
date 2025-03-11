@@ -12,17 +12,19 @@ from validacion.seedwork.infraestructura import utils
 
 @dataclass
 class ComandoIniciarValidacion(Comando):
-    id : str
-    url : str
-    fecha_inicio_validacion : str
+    url_raw_data: str
+    partner_id: str
+    user_id: str
+    url_s3: str
 
 class IniciarValidacionHandler(ComandoHandler):
 
     def a_entidad(self, comando: ComandoIniciarValidacion) -> Validacion:
         params = dict(
-            id=comando.id,
-            url = comando.url,
-            fecha_validacion = datetime.datetime.now()
+            url_raw_data=comando.url_raw_data,
+            partner_id = comando.partner_id,
+            user_id = comando.user_id,
+            url_s3 = comando.url_s3
         )
 
         validacion = Validacion(**params)
@@ -31,7 +33,7 @@ class IniciarValidacionHandler(ComandoHandler):
 
     def handle(self, comando: ComandoIniciarValidacion):
         validacion = self.a_entidad(comando)
-        payload = DataValidada(id = validacion.id, url = validacion.url, fecha_validacion = utils.time_millis())
+        payload = DataValidada(id = "", url = "validacion.url", fecha_validacion = utils.time_millis())
         evento = EventoValidacionFinalizada(
             time=utils.time_millis(),
             ingestion=utils.time_millis(),

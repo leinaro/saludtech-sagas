@@ -26,7 +26,7 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                     print(f'Evento recibido************ data: {datos.data}')
                     #print(f'Evento recibido************ tipo_processed_data: {datos.data.tipo_processed_data}')
 
-                    """
+                
 
                     ejecutar_comando_iniciar_procesamiento_datos(
                         ComandoIniciarProcesamientoDatos(
@@ -35,7 +35,7 @@ async def suscribirse_a_topico(topico: str, suscripcion: str, schema: Record, ti
                             datos.data.url_raw_data,
                             #datos.data.tipo_processed_data.name
                         )
-                    )"""
+                    )
             
                     await consumidor.acknowledge(mensaje)    
 
