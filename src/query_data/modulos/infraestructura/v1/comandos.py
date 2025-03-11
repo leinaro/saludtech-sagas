@@ -6,14 +6,12 @@ from processed_data.modulos.infraestructura.v1 import TipoDatos
 import uuid
 
 
-@dataclass
-class ComandoIniciarQueryEntrenamiento(Record):
-    partner_id: str
-    user_id: str
-    url_raw_data: str
+class ComandoIniciarQueryEntrenamiento(ComandoIntegracion):
+    partner_id: String()
+    user_id: String()
+    url_raw_data: String()
 
-@dataclass
-class ComandoCancelarQueryEntrenamiento(Record):
-    partner_id: str
-    user_id: str
-    url_raw_data: str
+class ComandoCancelarQueryEntrenamiento(ComandoIntegracion):
+    partner_id: String()
+    user_id: String()
+    url_raw_data: String()

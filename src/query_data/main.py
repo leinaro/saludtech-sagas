@@ -31,18 +31,36 @@ def shutdown_event():
     for task in tasks:
         task.cancel()
 
+@app.get("/query/entrenamiento-fallido", include_in_schema=False)
+async def query_iniciar_entrenamiento() -> dict[str, str]:
+    evento = EventoQueryEntrenamiendoFallido(
+        partner_id="partner123",
+        user_id="user123",
+        url_raw_data="http://example.com/data",
+        fecha_inicio="12"
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(evento, "evento-iniciar-query-fallido")
+    return {"status": "ok"}
+
+@app.get("/query/entrenamiento-finalizado", include_in_schema=False)
+async def query_iniciar_entrenamiento() -> dict[str, str]:
+    evento = EventoQueryEntrenamientoFinalizado(
+        partner_id="partner123",
+        user_id="user123",
+        url_raw_data="http://example.com/data",
+        fecha_inicio="12"
+    )
+    despachador = Despachador()
+    despachador.publicar_mensaje(evento, "evento-iniciar-query-entrenamiento")
+    return {"status": "ok"}
+
 @app.get("/query/iniciar-entrenamiento", include_in_schema=False)
 async def query_iniciar_entrenamiento() -> dict[str, str]:
-    payload = ComandoIniciarQueryEntrenamiento(
+    comando = ComandoIniciarQueryEntrenamiento(
         partner_id="partner123",
         user_id="user123",
         url_raw_data="http://example.com/data"
-    )
-
-    comando = ComandoIniciarQueryEntrenamiento(
-        partner_id=payload.partner_id,
-        user_id=payload.user_id,
-        url_raw_data=payload.url_raw_data
     )
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-iniciar-query-entrenamiento")
@@ -50,16 +68,10 @@ async def query_iniciar_entrenamiento() -> dict[str, str]:
 
 @app.get("/query/cancelar-entrenamiento", include_in_schema=False)
 async def query_cancelar_entrenamiento() -> dict[str, str]:
-    payload = ComandoCancelarQueryEntrenamiento(
+    comando = ComandoCancelarQueryEntrenamiento(
         partner_id="partner123",
         user_id="user123",
         url_raw_data="http://example.com/data"
-    )
-
-    comando = ComandoCancelarQueryEntrenamiento(
-        partner_id=payload.partner_id,
-        user_id=payload.user_id,
-        url_raw_data=payload.url_raw_data
     )
     despachador = Despachador()
     despachador.publicar_mensaje(comando, "comando-cancelar-query-entrenamiento")
