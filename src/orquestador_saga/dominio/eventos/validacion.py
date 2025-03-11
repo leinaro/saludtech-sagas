@@ -8,20 +8,22 @@ class EventoValidacion(EventoDominio):
 
 @dataclass
 class EventoValidacionFinalizada(EventoValidacion):
-#    id = String()
-    url_raw_data: str  = ""
-    partner_id : str  = ""
-    user_id: str  = ""
-    path: str  = ""
-    es_valido: bool  = True
+    traceId: str = ""
+    partner_id: str = ""
+    user_id: str = ""
+    url_raw_data: str = ""
+    url_s3: str = ""
+    path: str = ""
+    es_valido: bool = True
+    
 
 
 @dataclass
 class EventoValidacionFallido(EventoValidacion):
-#    id = String()
-    url_raw_data: str  = ""
-    partner_id : str  = ""
-    user_id: str  = ""
-    path: str  = ""
-    es_valido: bool  = True
-    #tipo_processed_data = TipoDatos
+    traceId: str = ""
+    partner_id: str = ""
+    user_id: str = ""
+    url_raw_data: str = ""
+    url_s3: str = ""
+    path: str = ""
+    

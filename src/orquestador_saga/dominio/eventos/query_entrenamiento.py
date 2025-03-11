@@ -9,21 +9,24 @@ class EventoQueryEntrenamiendo(EventoDominio):
 
 @dataclass
 class EventoQueryEntrenamiendoFinalizado(EventoQueryEntrenamiendo):
-    """partner_id: str
-    user_id: str
-    url_raw_data: str
-    url_s3: str
-    path: str
-    entrenamiendo_completado: bool"""
+    traceId: str = ""
+    partner_id: str = ""
+    user_id: str = ""
+    url_raw_data: str = ""
+    url_s3: str = ""
+    path: str = ""
+    es_valido: bool = True
+    entrenamiendo_completado: bool = True
 
     
 
 @dataclass
 class EventoQueryEntrenamiendoFallido(EventoQueryEntrenamiendo):
-    """partner_id: str
-    user_id: str
-    url_raw_data: str
-    url_s3: str
-    #tipo_processed_data: TipoDatos
-    path: str"""
-
+    traceId: str = ""
+    partner_id: str = ""
+    user_id: str = ""
+    url_raw_data: str = ""
+    url_s3: str = ""
+    path: str = ""
+    es_valido: bool = True
+    

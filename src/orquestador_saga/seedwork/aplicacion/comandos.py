@@ -13,7 +13,7 @@ class ComandoHandler(ABC):
 
 @singledispatch
 def ejecutar_commando(comando):
-    print(str(comando))
+    print(">>>>>>>> EJECUTA COMANDO "+str(comando))
     if comando is not None:
         match comando.datacontenttype:
             case "ComandoIniciarCargaDatos":

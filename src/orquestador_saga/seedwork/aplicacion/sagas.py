@@ -81,7 +81,7 @@ class CoordinadorOrquestacion(CoordinadorSaga, ABC):
                 
     def es_ultima_transaccion(self, index):
         print("paso: "+str(index) + " return "+ str(len(self.pasos)))
-        return index == (len(self.pasos) - 1)
+        return index >= (len(self.pasos) - 2)
 
     def procesar_evento(self, evento: EventoDominio):
         paso, index = self.obtener_paso_dado_un_evento(evento)
